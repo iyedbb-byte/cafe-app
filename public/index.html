@@ -752,7 +752,7 @@ function productFormHtml(p){
      <div class="upl" style="margin-top:8px"><label class="upl-btn">${I.upl} ${t('admin.upload')}<input type="file" id="pimgFile" accept="image/*"></label><span class="upl-name" id="pimgName"></span></div></div>
    <label class="check"><input type="checkbox" name="active" ${p.active?'checked':''}><span><b>${t('admin.onMenu')}</b><small>${t('admin.onMenuHint')}</small></span></label>
    <label class="check" style="margin-top:8px"><input type="checkbox" name="supplement" ${p.supplement?'checked':''}><span><b>${t('admin.isSupplement')}</b><small>${t('admin.supplementHint')}</small></span></label>
-   <div class="modal-actions"><button type="button" class="btn btn-g" data-close>${t('admin.cancel')}</button><button class="btn btn-p">${t('admin.save')}</button></div>
+   <div class="modal-actions"><button type="button" class="btn btn-g" data-close>${t('admin.cancel')}</button><button type="submit" class="btn btn-p">${t('admin.save')}</button></div>
  </form>`;}
 
 function catsHtml(){
