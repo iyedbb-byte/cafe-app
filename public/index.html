@@ -446,7 +446,7 @@ const Sync={bc:('BroadcastChannel' in window)?new BroadcastChannel('cafeazur-syn
 
 /* ═══════════ MOTEUR CLOUD (Cloudflare Worker + D1 + R2) ═══════════ */
 async function apiFetch(path,opt={}){
- const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),8000);
+ const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),opt.timeout||8000);
  const headers={...(opt.headers||{})};
  if(opt.auth&&JETON)headers['Authorization']='Bearer '+JETON;
  if(opt.body&&!(opt.body instanceof FormData))headers['Content-Type']='application/json';
@@ -467,11 +467,28 @@ function buildStateFromApi(d){
  lastVu=state.meta.lastChange;
 }
 async function cloudLoad(){buildStateFromApi(await apiFetch('/menu'));}
+async function compressImage(file){
+  try{
+    if(!file||!file.type||!file.type.startsWith('image/'))return file;
+    const img=await new Promise((res,rej)=>{const i=new Image();const u=URL.createObjectURL(file);i.onload=()=>{URL.revokeObjectURL(u);res(i);};i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('decode'));};i.src=u;});
+    const MAX=1600;
+    let w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;
+    if(!w||!h)return file;
+    if(Math.max(w,h)<=MAX&&file.size<900*1024)return file;
+    const s=Math.min(1,MAX/Math.max(w,h));w=Math.round(w*s);h=Math.round(h*s);
+    const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+    const ctx=cv.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.drawImage(img,0,0,w,h);
+    const blob=await new Promise(res=>cv.toBlob(res,'image/jpeg',0.82));
+    if(blob&&blob.size<file.size)return new File([blob],(file.name||'img').replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg'});
+    return file;
+  }catch{return file;}
+}
 async function uploadImage(file){
- if(MOTEUR.mode!=='cloud'){return await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
- const fd=new FormData();fd.append('file',file);
- const d=await apiFetch('/upload',{method:'POST',body:fd,auth:true});
- return d.url;
+  file=await compressImage(file);
+  if(MOTEUR.mode!=='cloud'){return await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
+  const fd=new FormData();fd.append('file',file);
+  const d=await apiFetch('/upload',{method:'POST',body:fd,auth:true,timeout:60000});
+  return d.url;
 }
 
 /* ---------- Auth ---------- */
