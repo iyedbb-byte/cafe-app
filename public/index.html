@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Amiri:wght@700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --blue-900:#123C60;--blue-800:#17537F;--blue-700:#1C5F94;--blue-600:#2472AE;--blue-500:#3E89C4;
@@ -358,7 +358,7 @@ const L10N=()=>({fr:'fr-FR',ar:'ar-TN',en:'en-GB'}[I18N.lang]);
 
 /* ---------- Apparence (identique) ---------- */
 const DEFAULT_BRAND={heroType:'gradient',heroImage:'',heroVideos:[],bgType:'color',bgColor:'',bgImage:'',textColor:'',fontFr:'',fontAr:'',facebook:'',instagram:''};
-const FONTS_FR=['Playfair Display','Cormorant Garamond','DM Serif Display','Lora','Bodoni Moda','Cinzel','Montserrat','Poppins','Raleway','Josefin Sans','Dancing Script','Great Vibes','Lobster','Pacifico','Abril Fatface','Righteous','Bebas Neue'];
+const FONTS_FR=['Playfair Display','Cormorant Garamond','DM Serif Display','Lora','Bodoni Moda','Cinzel','Montserrat','Poppins','Raleway','Josefin Sans','Dancing Script','Great Vibes','Lobster','Pacifico','Abril Fatface','Righteous','Bebas Neue','Orbitron'];
 const FONTS_AR=['Amiri','Cairo','Tajawal','Almarai','Reem Kufi','Noto Kufi Arabic','Noto Naskh Arabic','El Messiri','Changa','Lalezar','Aref Ruqaa','Markazi Text','Scheherazade New','Gulzar'];
 const loadedFonts=new Set();
 const brand=()=>({...DEFAULT_BRAND,...(state.cafe.branding||{})});
