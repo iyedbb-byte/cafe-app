@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS categories(
   id TEXT PRIMARY KEY, emoji TEXT, name_fr TEXT, name_ar TEXT, name_en TEXT, sort_order INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS products(
   id TEXT PRIMARY KEY, category_id TEXT, name TEXT, description TEXT,
-  price REAL DEFAULT 0, emoji TEXT, image TEXT, active INTEGER DEFAULT 1, sort_order INTEGER DEFAULT 0);
+  price REAL DEFAULT 0, emoji TEXT, image TEXT, active INTEGER DEFAULT 1, supplement INTEGER DEFAULT 0, sort_order INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS daily_availability(
   product_id TEXT, day TEXT, available INTEGER DEFAULT 1, PRIMARY KEY(product_id,day));
 CREATE TABLE IF NOT EXISTS admins(email TEXT PRIMARY KEY, pass_hash TEXT, name TEXT);

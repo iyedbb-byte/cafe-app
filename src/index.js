@@ -73,13 +73,13 @@ async function handleCategory(request, env) {
 async function handleProduct(request, env) {
   const { id, data } = await request.json();
   if (id) {
-    await env.DB.prepare('UPDATE products SET name=?,description=?,price=?,emoji=?,image=?,active=?,category_id=? WHERE id=?')
-      .bind(data.name, data.desc, data.price, data.emoji, data.image, data.active ? 1 : 0, data.catId, id).run();
+    await env.DB.prepare('UPDATE products SET name=?,description=?,price=?,emoji=?,image=?,active=?,category_id=?,supplement=? WHERE id=?')
+      .bind(data.name, data.desc, data.price, data.emoji, data.image, data.active ? 1 : 0, data.catId, data.supplement ? 1 : 0, id).run();
   } else {
     const nid = 'p-' + crypto.randomUUID();
     const mx = await env.DB.prepare('SELECT MAX(sort_order) o FROM products').first();
-    await env.DB.prepare('INSERT INTO products(id,category_id,name,description,price,emoji,image,active,sort_order) VALUES(?,?,?,?,?,?,?,?,?)')
-      .bind(nid, data.catId, data.name, data.desc, data.price, data.emoji, data.image, data.active ? 1 : 0, (mx.o || 0) + 1).run();
+    await env.DB.prepare('INSERT INTO products(id,category_id,name,description,price,emoji,image,active,supplement,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?)')
+      .bind(nid, data.catId, data.name, data.desc, data.price, data.emoji, data.image, data.active ? 1 : 0, data.supplement ? 1 : 0, (mx.o || 0) + 1).run();
   }
   await env.DB.prepare('UPDATE cafes SET last_change=?').bind(Date.now()).run();
   return json({ ok: true });
