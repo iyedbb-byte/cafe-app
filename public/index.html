@@ -569,6 +569,7 @@ const ART=[['#3E2A1C','#8A5F3D'],['#1C5F94','#5E93BE'],['#5C3A22','#B98A5C'],['#
 const imgHtml=(p,ci)=>{const [a,b]=ART[ci%ART.length];return `<div class="pimg" style="background:radial-gradient(120% 120% at 22% 14%,${b} 0%,${a} 80%)">${p.image?`<img loading="lazy" src="${esc(p.image)}" alt="" onerror="this.remove()">`:`<span class="pemoji">${p.emoji||'☕'}</span>`}</div>`;};
 const thumbHtml=p=>p.image?`<div class="thumb"><img src="${esc(p.image)}" alt=""></div>`:`<div class="thumb">${p.emoji||'☕'}</div>`;
 const cardHtml=(p,ci,i,cls='')=>{const sup=cls.split(' ').includes('sup');const avail=sup?`<span class="pavail-dot" title="${t('menu.available')}" aria-label="${t('menu.available')}"><i></i></span>`:`<span class="pavail"><i></i>${t('menu.available')}</span>`;return `<article class="pcard ${cls}" style="--i:${i}">${imgHtml(p,ci)}<div class="pbody"><h3 class="pname">${esc(p.name)}</h3>${p.desc?`<p class="pdesc">${esc(p.desc)}</p>`:''}<div class="pfoot"><div class="pprice">${fmtPrice(p.price)}<small>DT</small></div>${avail}</div></div></article>`;};
+function fitDescs(){document.querySelectorAll('.menu-main .pdesc').forEach(el=>{el.style.fontSize='';const base=parseFloat(getComputedStyle(el).fontSize)||13;const min=Math.max(8,base*0.62);let size=base,guard=0;while(el.scrollHeight>el.clientHeight+1&&size>min&&guard<30){size-=0.4;el.style.fontSize=size.toFixed(2)+'px';guard++;}});}
 
 /* ---------- Router ---------- */
 const app=$('#app');
@@ -639,6 +640,7 @@ function renderCustomer(slug,live=false){
  </div></footer>`;
  if(live){scrollTo(0,y);const now=Date.now();if(now-lastUpdToast>1600){lastUpdToast=now;toast(t('menu.updated'));}}
  setupHeroVideo();
+ requestAnimationFrame(fitDescs);
  $('#langBtn').onclick=e=>{e.stopPropagation();$('#langPop').classList.toggle('open');};
  $$('[data-lang]').forEach(b=>b.onclick=e=>{e.stopPropagation();I18N.set(b.dataset.lang);});
  document.addEventListener('click',()=>{const p=$('#langPop');if(p)p.classList.remove('open');},{once:true});
