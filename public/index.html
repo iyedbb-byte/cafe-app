@@ -164,6 +164,8 @@ img{display:block;max-width:100%}
 .sup-grid .pprice small{font-size:.54rem}
 .sup-grid .pavail{font-size:.58rem;padding:3px 7px;gap:4px}
 .sup-grid .pavail i{width:6px;height:6px}
+.pavail-dot{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--green-50);flex:none}
+.pavail-dot i{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2.4s infinite}
 .empty{text-align:center;padding:70px 20px;animation:rise .5s both}
 .empty-ico{font-size:3.2rem;margin-bottom:12px}
 .empty h3{font-family:var(--fd);font-size:1.4rem;color:var(--inkHead,var(--blue-900))}
@@ -543,7 +545,7 @@ function stopPolling(){if(pollTimer){clearInterval(pollTimer);pollTimer=null;}}
 const ART=[['#3E2A1C','#8A5F3D'],['#1C5F94','#5E93BE'],['#5C3A22','#B98A5C'],['#123C60','#41729F'],['#6F4A2E','#C29A72'],['#2472AE','#7FB2D9']];
 const imgHtml=(p,ci)=>{const [a,b]=ART[ci%ART.length];return `<div class="pimg" style="background:radial-gradient(120% 120% at 22% 14%,${b} 0%,${a} 80%)">${p.image?`<img loading="lazy" src="${esc(p.image)}" alt="" onerror="this.remove()">`:`<span class="pemoji">${p.emoji||'☕'}</span>`}</div>`;};
 const thumbHtml=p=>p.image?`<div class="thumb"><img src="${esc(p.image)}" alt=""></div>`:`<div class="thumb">${p.emoji||'☕'}</div>`;
-const cardHtml=(p,ci,i,cls='')=>`<article class="pcard ${cls}" style="--i:${i}">${imgHtml(p,ci)}<div class="pbody"><h3 class="pname">${esc(p.name)}</h3>${p.desc?`<p class="pdesc">${esc(p.desc)}</p>`:''}<div class="pfoot"><div class="pprice">${fmtPrice(p.price)}<small>DT</small></div><span class="pavail"><i></i>${t('menu.available')}</span></div></div></article>`;
+const cardHtml=(p,ci,i,cls='')=>{const sup=cls.split(' ').includes('sup');const avail=sup?`<span class="pavail-dot" title="${t('menu.available')}" aria-label="${t('menu.available')}"><i></i></span>`:`<span class="pavail"><i></i>${t('menu.available')}</span>`;return `<article class="pcard ${cls}" style="--i:${i}">${imgHtml(p,ci)}<div class="pbody"><h3 class="pname">${esc(p.name)}</h3>${p.desc?`<p class="pdesc">${esc(p.desc)}</p>`:''}<div class="pfoot"><div class="pprice">${fmtPrice(p.price)}<small>DT</small></div>${avail}</div></div></article>`;};
 
 /* ---------- Router ---------- */
 const app=$('#app');
