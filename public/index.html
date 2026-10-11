@@ -67,6 +67,7 @@ img{display:block;max-width:100%}
 .c-head-in{max-width:1080px;margin:auto;display:flex;align-items:center;gap:12px;padding:9px 18px}
 .c-logo{width:50px;height:50px;border-radius:50%;overflow:hidden;flex:none;display:grid;place-items:center;background:#fff;border:2px solid var(--brown-200,#e6d9cc);box-shadow:0 2px 8px rgba(60,40,20,.12)}
 .c-logo img{width:100%;height:100%;object-fit:cover}
+.c-logo.sm{width:38px;height:38px}
 .c-name{font-family:var(--fd);font-weight:600;font-size:1.22rem;color:var(--inkHead,var(--blue-900));line-height:1.1}
 .c-name.sm{font-size:1.02rem}
 .c-tag{font-size:.73rem;color:var(--ink-3)}
@@ -615,7 +616,7 @@ function renderCustomer(slug,live=false){
     </section>`).join(''):`<div class="empty"><div class="empty-ico">☕</div><h3>${t('menu.empty')}</h3><p>${t('menu.emptyHint')}</p></div>`}
  </main>
  <footer class="c-foot"><div class="c-foot-in">
-   <div class="c-foot-brand">${LOGO(32)}<span>${esc(cafe.name)}</span></div>
+   <div class="c-foot-brand">${b.logo?`<span class="c-logo sm"><img src="${esc(b.logo)}" alt="${esc(cafe.name)}"></span>`:`<span class="c-logo sm">${LOGO(30)}</span>`}<span>${esc(cafe.name)}</span></div>
    <p>${esc(cafe.hours)} · ${esc(cafe.address)}</p>${socials}
    <p class="c-foot-note">${t('menu.prices')}</p>
  </div></footer>`;
