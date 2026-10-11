@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cafe-app",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-11",
+  "assets": {
+    "directory": "./public/",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/files/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cafe-azur-db",
+      "database_id": "f931dfb8-2244-41fa-b446-f153add4abea"
+    }
+  ]
+}
