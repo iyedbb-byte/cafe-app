@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS sessions(token TEXT PRIMARY KEY, email TEXT, expiry I
 CREATE TABLE IF NOT EXISTS files(key TEXT PRIMARY KEY, content_type TEXT, data TEXT);
 
 INSERT OR IGNORE INTO cafes(slug,name,tagline,hours,address,branding)
- VALUES('cafe-azur','Café Azur','Torréfaction & pâtisserie — La Marsa','07:00 – 23:00','12 rue de la Plage, La Marsa','{}');
+  VALUES('the-one','Café Azur','Torréfaction & pâtisserie — La Marsa','07:00 – 23:00','12 rue de la Plage, La Marsa','{}');
 INSERT OR IGNORE INTO categories(id,emoji,name_fr,name_ar,name_en,sort_order) VALUES
  ('c-cafe','☕','Café','قهوة','Coffee',1),('c-bois','🥤','Boissons','مشروبات','Drinks',2),
  ('c-jus','🍹','Jus & Cocktails','عصائر','Juices',3),('c-pdj','🥐','Petit Déjeuner','فطور','Breakfast',4),

@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "cafe-app",
+  "name": "menu-app",
   "main": "src/index.js",
   "compatibility_date": "2026-10-11",
   "assets": {
