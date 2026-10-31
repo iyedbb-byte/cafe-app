@@ -178,6 +178,19 @@ img{display:block;max-width:100%}
 [data-card="sm"] .pavail{font-size:.6rem;padding:3px 8px}
 @media(min-width:560px){[data-card="sm"] .pgrid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:1000px){[data-card="sm"] .pgrid{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:640px){
+  .pgrid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .pimg{aspect-ratio:1/1}
+  .pemoji{font-size:30px}
+  .pbody{padding:8px 9px 10px}
+  .pname{font-size:.84rem}
+  .pdesc{font-size:.66rem}
+  .pprice{font-size:.8rem}
+  .pprice small{font-size:.52rem}
+  .pavail{font-size:.56rem;padding:2px 6px;gap:3px}
+  .pavail i{width:5px;height:5px}
+  .sup-grid{grid-template-columns:repeat(2,1fr)}
+}
 .sup-block{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line)}
 .sup-title{display:flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 [dir="rtl"] .sup-title{letter-spacing:0}
