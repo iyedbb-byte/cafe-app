@@ -990,9 +990,10 @@ function openSystemCafeForm(slug){
     try{
       if(c){await apiFetch('/system/cafe-update',{method:'POST',body:data,auth:true});}
       else{await apiFetch('/system/cafe-create',{method:'POST',body:data,auth:true});}
-      closeModal();loadSystemCafes();toast(t('admin.saved'))}
+      closeModal();loadSystemCafes();toast(t('admin.saved'))
+    }
     catch(err){toast('⚠ '+(err.message||''),'!');}
-}
+});
 function confirmDeleteSystemCafe(slug){
   const c=cafes.find(x=>x.slug===slug);
   confirmModal(t('admin.deleteCafeConfirm',{name:esc(c?.name||slug)}),async()=>{
