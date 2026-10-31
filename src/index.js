@@ -184,7 +184,7 @@ async function handleSystemCafeList(request, env) {
   const auth = request.headers.get('Authorization') || '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   if (!token) return new Response('unauthorized', { status: 401 });
-  const sess = await env.DB.prepare('SELECT role FROM sessions WHERE token=?').bind(token).first();
+  const sess = await env.DB.prepare('SELECT a.role FROM sessions s JOIN admins a ON s.email=a.email WHERE s.token=?').bind(token).first();
   if (!sess || sess.role !== 'SYSTEM_ADMIN') return new Response('forbidden', { status: 403 });
 
   const cafes = await env.DB.prepare('SELECT slug,name,tagline,hours,address,plan,status,last_change FROM cafes ORDER BY last_change DESC').all();
@@ -195,7 +195,7 @@ async function handleSystemCafeCreate(request, env) {
   const auth = request.headers.get('Authorization') || '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   if (!token) return new Response('unauthorized', { status: 401 });
-  const sess = await env.DB.prepare('SELECT role FROM sessions WHERE token=?').bind(token).first();
+  const sess = await env.DB.prepare('SELECT a.role FROM sessions s JOIN admins a ON s.email=a.email WHERE s.token=?').bind(token).first();
   if (!sess || sess.role !== 'SYSTEM_ADMIN') return new Response('forbidden', { status: 403 });
 
   const b = await request.json();
@@ -235,7 +235,7 @@ async function handleSystemCafeUpdate(request, env) {
   const auth = request.headers.get('Authorization') || '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   if (!token) return new Response('unauthorized', { status: 401 });
-  const sess = await env.DB.prepare('SELECT role FROM sessions WHERE token=?').bind(token).first();
+  const sess = await env.DB.prepare('SELECT a.role FROM sessions s JOIN admins a ON s.email=a.email WHERE s.token=?').bind(token).first();
   if (!sess || sess.role !== 'SYSTEM_ADMIN') return new Response('forbidden', { status: 403 });
 
   const b = await request.json();
@@ -248,7 +248,7 @@ async function handleSystemCafeDelete(request, env) {
   const auth = request.headers.get('Authorization') || '';
   const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
   if (!token) return new Response('unauthorized', { status: 401 });
-  const sess = await env.DB.prepare('SELECT role FROM sessions WHERE token=?').bind(token).first();
+  const sess = await env.DB.prepare('SELECT a.role FROM sessions s JOIN admins a ON s.email=a.email WHERE s.token=?').bind(token).first();
   if (!sess || sess.role !== 'SYSTEM_ADMIN') return new Response('forbidden', { status: 403 });
 
   const b = await request.json();
