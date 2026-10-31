@@ -63,7 +63,26 @@ img{display:block;max-width:100%}
 .switch.on{background:var(--blue-600)}.switch.on::after{transform:translateX(20px)}
 [dir="rtl"] .switch.on::after{transform:translateX(-20px)}
 .switch:disabled{opacity:.35;cursor:not-allowed}
-.c-head{position:sticky;top:0;z-index:50;background:rgba(255,253,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.c-head{position:sticky;top:var(--cart-h,0);z-index:50;background:rgba(255,253,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.cart-bar{position:fixed;top:0;left:0;right:0;z-index:70;transform:translateY(-100%);transition:transform .3s ease}
+.cart-bar.open{transform:translateY(0)}
+.cart-bar .cart-inner{max-width:1080px;margin:auto;padding:8px 18px;display:flex;align-items:center;gap:12px;overflow-x:auto;white-space:nowrap}
+.cart-bar{background:linear-gradient(90deg,#3E2A1C,#5E3A22);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.28)}
+.cart-empty{opacity:.85;font-weight:600}
+.c-rows{display:flex;align-items:center;gap:10px;overflow-x:auto;flex:1}
+.c-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:4px 4px 4px 4px}
+.c-thumb{width:34px;height:34px;border-radius:50%;overflow:hidden;flex:none;display:grid;place-items:center;background:#fff;font-size:16px}
+.c-thumb img{width:100%;height:100%;object-fit:cover}
+.c-info{display:flex;flex-direction:column;line-height:1.1}
+.c-name{font-size:.82rem;font-weight:600}
+.c-meta{font-size:.72rem;opacity:.85}
+.c-qty{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border-radius:999px;padding:2px}
+.c-qty span{min-width:18px;text-align:center;font-weight:600;font-size:.85rem}
+.c-qty-btn{width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:1.1rem;line-height:1;cursor:pointer}
+.c-qty-btn:hover{background:rgba(255,255,255,.2)}
+.c-del{background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:.95rem;padding:0 4px}
+.c-foot{margin-left:auto;display:flex;align-items:center;gap:10px;flex:none}
+.c-total{font-weight:700;font-size:.9rem}
 .c-head-in{max-width:1080px;margin:auto;display:flex;align-items:center;gap:12px;padding:9px 18px}
 .c-logo{width:50px;height:50px;border-radius:50%;overflow:hidden;flex:none;display:grid;place-items:center;background:#fff;border:2px solid var(--brown-200,#e6d9cc);box-shadow:0 2px 8px rgba(60,40,20,.12)}
 .c-logo img{width:100%;height:100%;object-fit:cover}
@@ -388,13 +407,13 @@ fr:{'menu.daily':'Menu du jour','menu.live':'En direct','menu.ourMenu':'Notre Me
 'admin.today':'Disponibilité aujourd\'hui','admin.products':'Produits','admin.categories':'Catégories','admin.theme':'Apparence','admin.qr':'QR & Réglages','admin.viewMenu':'Voir le menu','admin.logout':'Déconnexion','admin.autoSave':'Enregistrement automatique','admin.cloudHint':'Synchronisé en temps réel','admin.lastUpdate':'Dernière modification : {t}','admin.allOn':'Tout activer','admin.allOff':'Tout désactiver','admin.out':'Épuisé','admin.unlisted':'Retiré de la carte','admin.search':'Rechercher un produit…','admin.addProduct':'Nouveau produit','admin.editProduct':'Modifier le produit','admin.name':'Nom','admin.price':'Prix (DT)','admin.desc':'Description courte','admin.category':'Catégorie','admin.emoji':'Emoji','admin.image':'Image (URL, optionnel)','admin.upload':'Choisir une image','admin.uploading':'Envoi…','admin.onMenu':'Présent sur la carte','admin.onMenuHint':'Un produit retiré n\'apparaît plus aux clients.','admin.isSupplement':'Supplément (rangée réduite)','admin.supplementHint':'Affiché dans une rangée plus petite, sous la catégorie.','admin.supplementShort':'supplément','admin.save':'Enregistrer','admin.cancel':'Annuler','admin.delete':'Supprimer','admin.deleteConfirm':'Supprimer définitivement « {name} » ?','admin.deleteCatConfirm':'Supprimer la catégorie « {name} » ?','admin.saved':'Enregistré ✓','admin.addCategory':'Nouvelle catégorie','admin.catNotEmpty':'Impossible : déplacez ou supprimez d\'abord ses produits.','admin.itemsShort':'produits','admin.stats.available':'Disponibles','admin.stats.out':'Épuisés','admin.stats.total':'Sur la carte','admin.menuLink':'Lien du menu','admin.copy':'Copier','admin.copied':'Lien copié ✓','admin.open':'Ouvrir','admin.download':'Télécharger le QR','admin.printHint':'Imprimez ce QR code et placez-le sur vos tables. Les clients voient la carte du jour en temps réel.','admin.cafeName':'Nom du café','admin.tagline':'Slogan','admin.hours':'Horaires','admin.address':'Adresse','qr.section':'QR code du menu','settings.section':'Infos du café',
 'theme.applied':'Les changements sont appliqués immédiatement au menu des clients.','theme.hero':'Bandeau du haut','theme.heroType':'Contenu du bandeau','theme.gradient':'Par défaut','theme.image':'Image','theme.video':'Vidéos promo','theme.imageUrl':'Lien de l\'image','theme.videoUrls':'Liens des vidéos (mp4 / webm)','theme.addVideo':'Ajouter une vidéo','theme.videoHint':'Lecture en sourdine, en boucle. Les vidéos tournent toutes les 10 secondes. Utilisez des liens directs.','theme.bg':'Arrière-plan de la page','theme.bgColor':'Couleur','theme.bgImage':'Image','theme.bgImageUrl':'Lien de l\'image de fond','theme.fonts':'Polices & couleurs','theme.fontFr':'Police du français (Google Fonts)','theme.fontAr':'Police de l\'arabe (Google Fonts)','theme.textColor':'Couleur du texte','theme.reset':'Réinitialiser','theme.default':'Par défaut','theme.social':'Réseaux sociaux','theme.socialHint':'Les liens apparaissent en bas du menu des clients.','theme.follow':'Suivez-nous','theme.cardSize':'Taille des fiches produits','theme.sizeLarge':'Grande','theme.sizeMedium':'Moyenne','theme.sizeSmall':'Petite','theme.cardHint':'Choisissez la taille des fiches affichées dans le menu des clients.','theme.logo':'Logo du café','theme.logoUrl':'Lien de l\'image du logo','theme.logoHint':'Format carré recommandé (PNG/JPG). Le logo s\'affiche dans un cercle en haut du menu.','theme.removeLogo':'Retirer le logo',
 'mode.cloud':'☁️ Cloudflare connecté','mode.local':'💾 Démo locale (API absente)','loading':'Chargement…','err.title':'Connexion à l\'API impossible','err.hint1':'Vérifiez que le Worker est déployé sur Cloudflare.','err.hint2':'Vérifiez que la base D1 est créée et liée.','err.hint3':'Vérifiez votre connexion Internet.','notfound':'Café introuvable'},
-ar:{'menu.daily':'قائمة اليوم','menu.live':'مباشر','menu.ourMenu':'قائمتنا','menu.available':'متوفّر','menu.xProducts':'{n} منتج متوفّر','menu.updated':'تم تحديث القائمة ✓','menu.empty':'قائمتنا قيد التحضير…','menu.emptyHint':'نعود إليكم بعد لحظات.','menu.prices':'الأسعار بالدينار التونسي (د.ت) — الخدمة مشمولة','menu.supplements':'إضافات',
+ar:{'menu.daily':'قائمة اليوم','menu.live':'مباشر','menu.ourMenu':'قائمتنا','menu.available':'متوفّر','menu.xProducts':'{n} منتج متوفّر','menu.updated':'تم تحديث القائمة ✓','menu.empty':'قائمتنا قيد التحضير…','menu.emptyHint':'نعود إليكم بعد لحظات.','menu.prices':'الأسعار بالدينار التونسي (د.ت) — الخدمة مشمولة','menu.supplements':'إضافات','menu.order':'الطلب','menu.added':'أُضاف ✓','menu.clear':'مسح','menu.orderNow':'طلب','menu.total':'الإجمالي',
 'login.title':'فضاء الإدارة','login.subtitle':'سجّل الدخول لإدارة قائمة اليوم','login.email':'البريد الإلكتروني','login.password':'كلمة السر','login.submit':'تسجيل الدخول','login.signingIn':'جارٍ الدخول…','login.error':'البريد الإلكتروني أو كلمة السر غير صحيحة','login.demo':'حساب تجريبي','login.fill':'تعبئة',
 'login.firstTitle':'إنشاء الحساب الأول','login.firstSub':'لا يوجد حساب مسؤول بعد. أنشئه الآن.','login.firstName':'اسمك','login.createBtn':'إنشاء الحساب','login.created':'تم إنشاء الحساب ✓',
 'admin.today':'توفّر اليوم','admin.products':'المنتجات','admin.categories':'الأصناف','admin.theme':'المظهر','admin.qr':'QR والإعدادات','admin.viewMenu':'عرض القائمة','admin.logout':'خروج','admin.autoSave':'حفظ تلقائي','admin.cloudHint':'مزامنة لحظية','admin.lastUpdate':'آخر تعديل: {t}','admin.allOn':'تفعيل الكل','admin.allOff':'إيقاف الكل','admin.out':'غير متوفر','admin.unlisted':'غير مدرج','admin.search':'ابحث عن منتج…','admin.addProduct':'منتج جديد','admin.editProduct':'تعديل المنتج','admin.name':'الاسم','admin.price':'السعر (د.ت)','admin.desc':'وصف قصير','admin.category':'الصنف','admin.emoji':'الإيموجي','admin.image':'الصورة (رابط، اختياري)','admin.upload':'اختيار صورة','admin.uploading':'جارٍ الرفع…','admin.onMenu':'مدرج في القائمة','admin.onMenuHint':'المنتج غير المدرج لا يظهر للحرفاء.','admin.isSupplement':'إضافة (صف أصغر)','admin.supplementHint':'تُعرض في صف أصغر أسفل الصنف.','admin.supplementShort':'إضافة','admin.save':'حفظ','admin.cancel':'إلغاء','admin.delete':'حذف','admin.deleteConfirm':'حذف « {name} » نهائيًا؟','admin.deleteCatConfirm':'حذف الصنف « {name} »؟','admin.saved':'تم الحفظ ✓','admin.addCategory':'صنف جديد','admin.catNotEmpty':'لا يمكن الحذف: انقل أو احذف منتجاته أولًا.','admin.itemsShort':'منتج','admin.stats.available':'متوفر','admin.stats.out':'غير متوفر','admin.stats.total':'في القائمة','admin.menuLink':'رابط القائمة','admin.copy':'نسخ','admin.copied':'تم نسخ الرابط ✓','admin.open':'فتح','admin.download':'تحميل رمز QR','admin.printHint':'اطبع رمز QR وضعه على الطاولات — سيرى الحرفاء قائمة اليوم محدّثة لحظيًا.','admin.cafeName':'اسم المقهى','admin.tagline':'سطر تعريفي','admin.hours':'أوقات العمل','admin.address':'العنوان','qr.section':'رمز QR للقائمة','settings.section':'معلومات المقهى',
 'theme.applied':'تُطبَّق التغييرات مباشرة على قائمة الحرفاء.','theme.hero':'الشريط العلوي','theme.heroType':'محتوى الشريط','theme.gradient':'الافتراضي','theme.image':'صورة','theme.video':'فيديوهات إشهارية','theme.imageUrl':'رابط الصورة','theme.videoUrls':'روابط الفيديوهات (mp4 / webm)','theme.addVideo':'إضافة فيديو','theme.videoHint':'تُشغَّل بدون صوت وبتكرار، وتتبدّل كل 10 ثوانٍ. استخدم روابط مباشرة.','theme.bg':'خلفية الصفحة','theme.bgColor':'لون','theme.bgImage':'صورة','theme.bgImageUrl':'رابط صورة الخلفية','theme.fonts':'الخطوط والألوان','theme.fontFr':'خط الفرنسية (خطوط غوغل)','theme.fontAr':'خط العربية (خطوط غوغل)','theme.textColor':'لون الخط','theme.reset':'استعادة الافتراضي','theme.default':'افتراضي','theme.social':'روابط التواصل','theme.socialHint':'تظهر الروابط أسفل صفحة قائمة الحرفاء.','theme.follow':'تابعونا','theme.cardSize':'حجم بطاقات المنتجات','theme.sizeLarge':'كبير','theme.sizeMedium':'متوسط','theme.sizeSmall':'صغير','theme.cardHint':'اختر حجم بطاقات المنتجات المعروضة في قائمة الحرفاء.','theme.logo':'شعار المقهى','theme.logoUrl':'رابط صورة الشعار','theme.logoHint':'يُفضّل شكل مربّع (PNG/JPG). يظهر الشعار داخل دائرة أعلى القائمة.','theme.removeLogo':'إزالة الشعار',
 'mode.cloud':'☁️ متصل بـ Cloudflare','mode.local':'💾 وضع تجريبي محلي (لا توجد API)','loading':'جارٍ التحميل…','err.title':'تعذّر الاتصال بالـ API','err.hint1':'تأكد من نشر العامل (Worker) على Cloudflare.','err.hint2':'تأكد من إنشاء قاعدة D1 وربطها.','err.hint3':'تحقق من اتصال الإنترنت.','notfound':'المقهى غير موجود'},
-en:{'menu.daily':'Today\'s menu','menu.live':'Live','menu.ourMenu':'Our Menu','menu.available':'Available','menu.xProducts':'{n} items available','menu.updated':'Menu updated ✓','menu.empty':'The menu is being prepared…','menu.emptyHint':'Check back in a few moments.','menu.prices':'Prices in Tunisian Dinars (DT) — service included','menu.supplements':'Extras',
+en:{'menu.daily':'Today\'s menu','menu.live':'Live','menu.ourMenu':'Our Menu','menu.available':'Available','menu.xProducts':'{n} items available','menu.updated':'Menu updated ✓','menu.empty':'The menu is being prepared…','menu.emptyHint':'Check back in a few moments.','menu.prices':'Prices in Tunisian Dinars (DT) — service included','menu.supplements':'Extras','menu.order':'Order','menu.added':'Added ✓','menu.clear':'Clear','menu.orderNow':'Order','menu.total':'Total',
 'login.title':'Admin Area','login.subtitle':'Sign in to manage your menu','login.email':'Email address','login.password':'Password','login.submit':'Sign in','login.signingIn':'Signing in…','login.error':'Invalid email or password','login.demo':'Demo account','login.fill':'Fill in',
 'login.firstTitle':'Create the first account','login.firstSub':'No admin account exists yet. Create it now.','login.firstName':'Your name','login.createBtn':'Create account','login.created':'Account created ✓',
 'admin.today':'Today\'s availability','admin.products':'Products','admin.categories':'Categories','admin.theme':'Appearance','admin.qr':'QR & Settings','admin.viewMenu':'View menu','admin.logout':'Log out','admin.autoSave':'Auto-save','admin.cloudHint':'Synced in real time','admin.lastUpdate':'Last change: {t}','admin.allOn':'Enable all','admin.allOff':'Disable all','admin.out':'Sold out','admin.unlisted':'Unlisted','admin.search':'Search products…','admin.addProduct':'New product','admin.editProduct':'Edit product','admin.name':'Name','admin.price':'Price (DT)','admin.desc':'Short description','admin.category':'Category','admin.emoji':'Emoji','admin.image':'Image (URL, optional)','admin.upload':'Choose an image','admin.uploading':'Uploading…','admin.onMenu':'Listed on the menu','admin.onMenuHint':'Unlisted products never appear to customers.','admin.isSupplement':'Supplement (smaller row)','admin.supplementHint':'Shown in a smaller row under the category.','admin.supplementShort':'supplement','admin.save':'Save','admin.cancel':'Cancel','admin.delete':'Delete','admin.deleteConfirm':'Permanently delete “{name}”?','admin.deleteCatConfirm':'Delete category “{name}”?','admin.saved':'Saved ✓','admin.addCategory':'New category','admin.catNotEmpty':'Cannot delete: move or remove its products first.','admin.itemsShort':'items','admin.stats.available':'Available','admin.stats.out':'Sold out','admin.stats.total':'Listed','admin.menuLink':'Menu link','admin.copy':'Copy','admin.copied':'Link copied ✓','admin.open':'Open','admin.download':'Download QR','admin.printHint':'Print this QR code and place it on your tables. Customers always see today\'s menu.','admin.cafeName':'Café name','admin.tagline':'Tagline','admin.hours':'Opening hours','admin.address':'Address','qr.section':'Menu QR code','settings.section':'Café information',
@@ -572,8 +591,50 @@ function stopPolling(){if(pollTimer){clearInterval(pollTimer);pollTimer=null;}}
 const ART=[['#3E2A1C','#8A5F3D'],['#1C5F94','#5E93BE'],['#5C3A22','#B98A5C'],['#123C60','#41729F'],['#6F4A2E','#C29A72'],['#2472AE','#7FB2D9']];
 const imgHtml=(p,ci)=>{const [a,b]=ART[ci%ART.length];return `<div class="pimg" style="background:radial-gradient(120% 120% at 22% 14%,${b} 0%,${a} 80%)">${p.image?`<img loading="lazy" src="${esc(p.image)}" alt="" onerror="this.remove()">`:`<span class="pemoji">${p.emoji||'☕'}</span>`}</div>`;};
 const thumbHtml=p=>p.image?`<div class="thumb"><img src="${esc(p.image)}" alt=""></div>`:`<div class="thumb">${p.emoji||'☕'}</div>`;
-const cardHtml=(p,ci,i,cls='')=>{const sup=cls.split(' ').includes('sup');const avail=sup?`<span class="pavail-dot" title="${t('menu.available')}" aria-label="${t('menu.available')}"><i></i></span>`:`<span class="pavail"><i></i>${t('menu.available')}</span>`;return `<article class="pcard ${cls}" style="--i:${i}">${imgHtml(p,ci)}<div class="pbody"><h3 class="pname">${esc(p.name)}</h3>${p.desc?`<p class="pdesc">${esc(p.desc)}</p>`:''}<div class="pfoot"><div class="pprice">${fmtPrice(p.price)}<small>DT</small></div>${avail}</div></div></article>`;};
+const cardHtml=(p,ci,i,cls='')=>{const sup=cls.split(' ').includes('sup');const avail=sup?`<span class="pavail-dot" title="${t('menu.available')}" aria-label="${t('menu.available')}"><i></i></span>`:`<span class="pavail"><i></i>${t('menu.available')}</span>`;return `<article class="pcard ${cls}" data-pid="${p.id}" style="--i:${i}">${imgHtml(p,ci)}<div class="pbody"><h3 class="pname">${esc(p.name)}</h3>${p.desc?`<p class="pdesc">${esc(p.desc)}</p>`:''}<div class="pfoot"><div class="pprice">${fmtPrice(p.price)}<small>DT</small></div>${avail}</div></div></article>`;};
 function fitDescs(){document.querySelectorAll('.menu-main .pdesc').forEach(el=>{el.style.fontSize='';const base=parseFloat(getComputedStyle(el).fontSize)||13;const min=Math.max(8,base*0.62);let size=base,guard=0;while(el.scrollHeight>el.clientHeight+1&&size>min&&guard<30){size-=0.4;el.style.fontSize=size.toFixed(2)+'px';guard++;}});}
+/* ---------- Carte (commande) ---------- */
+const CART_KEY='cafeazur-cart';
+let cart=JSON.parse(localStorage.getItem(CART_KEY)||'{}');
+function cartCount(){return Object.values(cart).reduce((a,n)=>a+(n||0),0);}
+function cartTotal(){let t=0;for(const pid in cart){const p=state.products.find(x=>x.id===pid);if(p)t+=p.price*(cart[pid]||0);}return t;}
+function cartHtml(){
+  const entries=Object.entries(cart).filter(([k,v])=>v>0);
+  if(!entries.length)return `<span class="cart-empty">${t('menu.order')}</span>`;
+  const rows=entries.map(([pid,q])=>{
+    const p=state.products.find(x=>x.id===pid);
+    if(!p)return '';
+    return `<div class="c-row"><div class="c-thumb">${p.image?`<img src="${esc(p.image)}" alt="">`:`${p.emoji||'☕'}`}</div>
+      <div class="c-info"><div class="c-name">${esc(p.name)}</div><div class="c-meta">${fmtPrice(p.price)} DT × ${q}</div></div>
+      <div class="c-qty"><button class="c-qty-btn" data-dec="${pid}" aria-label="−">−</button><span>${q}</span><button class="c-qty-btn" data-inc="${pid}" aria-label="+">+</button></div>
+      <button class="c-del" data-del="${pid}" aria-label="${t('menu.clear')}">✕</button></div>`;
+  }).join('');
+  return `<div class="c-rows">${rows}</div><div class="c-foot"><button class="btn btn-g btn-sm" id="cartClear">${t('menu.clear')}</button><span class="c-total">${t('menu.total')} ${fmtPrice(cartTotal())} DT</span></div>`;
+}
+function cartAdd(pid){cart[pid]=(cart[pid]||0)+1;persistCart();toast(t('menu.added'));}
+function cartSet(pid,q){if(q<=0)delete cart[pid];else cart[pid]=q;persistCart();}
+function persistCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart));updateCartBar();}
+function updateCartBar(){
+  const bar=$('#cartBar');if(!bar)return;
+  const n=cartCount();
+  bar.innerHTML=`<div class="cart-inner">${n?cartHtml():`<span class="cart-empty">${t('menu.order')}</span>`}</div>`;
+  bar.classList.toggle('open',n>0);
+  document.documentElement.style.setProperty('--cart-h',n?'56px':'0px');
+}
+let cartBound=false;
+function cartBind(){
+  if(cartBound)return;cartBound=true;
+  $('#cartBar').addEventListener('click',e=>{
+    const inc=e.target.closest('[data-inc]');if(inc){cartAdd(inc.dataset.inc);return;}
+    const dec=e.target.closest('[data-dec]');if(dec){cartSet(dec.dataset.dec,(cart[dec.dataset.dec]||1)-1);return;}
+    const del=e.target.closest('[data-del]');if(del){cartSet(del.dataset.del,0);return;}
+    const cl=e.target.closest('#cartClear');if(cl){cart={};persistCart();return;}
+  });
+  app.addEventListener('click',e=>{
+    const card=e.target.closest('.menu-main .pcard');if(!card||!card.dataset.pid)return;
+    cartAdd(card.dataset.pid);
+  });
+}
 
 /* ---------- Router ---------- */
 const app=$('#app');
@@ -623,7 +684,8 @@ function renderCustomer(slug,live=false){
  const b=brand();
  const socials=(b.facebook||b.instagram)?`<div class="social-t">${t('theme.follow')}</div><div class="social-row">${b.facebook?`<a class="soc" href="${esc(b.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${I.fb}</a>`:''}${b.instagram?`<a class="soc" href="${esc(b.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${I.ig}</a>`:''}</div>`:'';
  app.innerHTML=`
- <header class="c-head"><div class="c-head-in">${b.logo?`<span class="c-logo"><img src="${esc(b.logo)}" alt="${esc(cafe.name)}"></span>`:`<span class="c-logo">${LOGO(40)}</span>`}
+ <div id="cartBar" class="cart-bar"></div>
+  <header class="c-head"><div class="c-head-in">${b.logo?`<span class="c-logo"><img src="${esc(b.logo)}" alt="${esc(cafe.name)}"></span>`:`<span class="c-logo">${LOGO(40)}</span>`}
    <div><div class="c-name">${esc(cafe.name)}</div><div class="c-tag">${esc(cafe.tagline)}</div></div>
    <div class="lang"><button class="lang-btn" id="langBtn">${I.globe}<span>${I18N.lang.toUpperCase()}</span></button>
    <div class="lang-pop" id="langPop">${Object.keys(LANG_META).map(l=>`<button data-lang="${l}" class="${l===I18N.lang?'on':''}">${LANG_META[l]}</button>`).join('')}</div></div>
@@ -643,8 +705,10 @@ function renderCustomer(slug,live=false){
    <p class="c-foot-note">${t('menu.prices')}</p>
  </div></footer>`;
  if(live){scrollTo(0,y);const now=Date.now();if(now-lastUpdToast>1600){lastUpdToast=now;toast(t('menu.updated'));}}
- setupHeroVideo();
- requestAnimationFrame(fitDescs);
+setupHeroVideo();
+  requestAnimationFrame(fitDescs);
+updateCartBar();
+  cartBind();
  $('#langBtn').onclick=e=>{e.stopPropagation();$('#langPop').classList.toggle('open');};
  $$('[data-lang]').forEach(b=>b.onclick=e=>{e.stopPropagation();I18N.set(b.dataset.lang);});
  document.addEventListener('click',()=>{const p=$('#langPop');if(p)p.classList.remove('open');},{once:true});
