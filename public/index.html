@@ -404,7 +404,7 @@ function confirmModal(msg,onYes){openModal(`<div class="modal-b" style="text-ali
 /* ---------- i18n ---------- */
 const LANG_META={fr:'Français',ar:'العربية',en:'English'};
 const DICT={
-fr:{'menu.daily':'Menu du jour','menu.live':'En direct','menu.ourMenu':'Notre Menu','menu.available':'Disponible','menu.xProducts':'{n} produits disponibles','menu.updated':'Menu mis à jour ✓','menu.empty':'La carte se prépare…','menu.emptyHint':'Revenez dans quelques instants.','menu.prices':'Prix en dinars tunisiens (DT) — service compris','menu.supplements':'Suppléments',
+fr:{'menu.daily':'Menu du jour','menu.live':'En direct','menu.ourMenu':'Notre Menu','menu.available':'Disponible','menu.xProducts':'{n} produits disponibles','menu.updated':'Menu mis à jour ✓','menu.empty':'La carte se prépare…','menu.emptyHint':'Revenez dans quelques instants.','menu.prices':'Prix en dinars tunisiens (DT) — service compris','menu.supplements':'Suppléments','menu.order':'Commande','menu.added':'Ajouté ✓','menu.clear':'Vider','menu.orderNow':'Commander','menu.total':'l\'addition',
 'login.title':'Espace Gestion','login.subtitle':'Connectez-vous pour gérer votre menu','login.email':'Adresse e-mail','login.password':'Mot de passe','login.submit':'Se connecter','login.signingIn':'Connexion…','login.error':'E-mail ou mot de passe incorrect','login.demo':'Compte de démonstration','login.fill':'Remplir',
 'login.firstTitle':'Créer le premier compte','login.firstSub':'Aucun compte admin n\'existe encore. Créez-le maintenant.','login.firstName':'Votre nom','login.createBtn':'Créer le compte','login.created':'Compte créé ✓',
 'admin.today':'Disponibilité aujourd\'hui','admin.products':'Produits','admin.categories':'Catégories','admin.theme':'Apparence','admin.qr':'QR & Réglages','admin.viewMenu':'Voir le menu','admin.logout':'Déconnexion','admin.autoSave':'Enregistrement automatique','admin.cloudHint':'Synchronisé en temps réel','admin.lastUpdate':'Dernière modification : {t}','admin.allOn':'Tout activer','admin.allOff':'Tout désactiver','admin.out':'Épuisé','admin.unlisted':'Retiré de la carte','admin.search':'Rechercher un produit…','admin.addProduct':'Nouveau produit','admin.editProduct':'Modifier le produit','admin.name':'Nom','admin.price':'Prix (DT)','admin.desc':'Description courte','admin.category':'Catégorie','admin.emoji':'Emoji','admin.image':'Image (URL, optionnel)','admin.upload':'Choisir une image','admin.uploading':'Envoi…','admin.onMenu':'Présent sur la carte','admin.onMenuHint':'Un produit retiré n\'apparaît plus aux clients.','admin.isSupplement':'Supplément (rangée réduite)','admin.supplementHint':'Affiché dans une rangée plus petite, sous la catégorie.','admin.supplementShort':'supplément','admin.save':'Enregistrer','admin.cancel':'Annuler','admin.delete':'Supprimer','admin.deleteConfirm':'Supprimer définitivement « {name} » ?','admin.deleteCatConfirm':'Supprimer la catégorie « {name} » ?','admin.saved':'Enregistré ✓','admin.addCategory':'Nouvelle catégorie','admin.catNotEmpty':'Impossible : déplacez ou supprimez d\'abord ses produits.','admin.itemsShort':'produits','admin.stats.available':'Disponibles','admin.stats.out':'Épuisés','admin.stats.total':'Sur la carte','admin.menuLink':'Lien du menu','admin.copy':'Copier','admin.copied':'Lien copié ✓','admin.open':'Ouvrir','admin.download':'Télécharger le QR','admin.printHint':'Imprimez ce QR code et placez-le sur vos tables. Les clients voient la carte du jour en temps réel.','admin.cafeName':'Nom du café','admin.tagline':'Slogan','admin.hours':'Horaires','admin.address':'Adresse','qr.section':'QR code du menu','settings.section':'Infos du café',
@@ -603,7 +603,7 @@ function cartCount(){return Object.values(cart).reduce((a,n)=>a+(n||0),0);}
 function cartTotal(){let t=0;for(const pid in cart){const p=state.products.find(x=>x.id===pid);if(p)t+=p.price*(cart[pid]||0);}return t;}
 function cartHtml(){
   const entries=Object.entries(cart).filter(([k,v])=>v>0);
-  if(!entries.length)return `<span class="cart-empty">${t('menu.order')} <span class="cart-badge">${cartCount()}</span></span>`;
+  if(!entries.length)return '';
   const rows=entries.map(([pid,q])=>{
     const p=state.products.find(x=>x.id===pid);
     if(!p)return '';
@@ -612,14 +612,16 @@ function cartHtml(){
       <div class="c-qty"><button class="c-qty-btn" data-dec="${pid}" aria-label="−">−</button><span>${q}</span><button class="c-qty-btn" data-inc="${pid}" aria-label="+">+</button></div>
       <button class="c-del" data-del="${pid}" aria-label="${t('menu.clear')}">✕</button></div>`;
   }).join('');
-  return `<div class="c-rows">${rows}</div><div class="c-foot"><button class="btn btn-g btn-sm" id="cartClear">${t('menu.clear')}</button><span class="c-total">${t('menu.total')} ${fmtPrice(cartTotal())} DT</span></div>`;
+  return `<div class="c-rows">${rows}</div><div class="c-foot"><span class="c-total">${t('menu.total')} ${fmtPrice(cartTotal())} DT</span></div>`;
 }
 function cartAdd(pid){cart[pid]=(cart[pid]||0)+1;persistCart();toast(t('menu.added'));}
 function cartSet(pid,q){if(q<=0)delete cart[pid];else cart[pid]=q;persistCart();}
 function persistCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart));updateCartBar();}
 function updateCartBar(){
   const bar=$('#cartBar');if(!bar)return;
-  bar.innerHTML=`<div class="cart-inner">${cartHtml()}</div>`;
+  const html=cartHtml();
+  bar.style.display=html?'':'none';
+  if(html)bar.innerHTML=`<div class="cart-inner">${html}</div>`;
 }
 let cartBound=false;
 function cartBind(){
