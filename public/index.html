@@ -64,8 +64,8 @@ img{display:block;max-width:100%}
 [dir="rtl"] .switch.on::after{transform:translateX(-20px)}
 .switch:disabled{opacity:.35;cursor:not-allowed}
 .c-head{position:sticky;top:0;z-index:50;background:rgba(255,253,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.cart-bar{position:fixed;top:56px;left:0;right:0;z-index:60;height:52px;display:flex;align-items:center;overflow:hidden;background:linear-gradient(90deg,#F5D742,#E8A820);color:#3A2A10;box-shadow:0 4px 14px rgba(0,0,0,.28)}
-.cart-bar .cart-inner{max-width:1080px;margin:auto;padding:0 18px;display:flex;align-items:center;gap:12px;overflow-x:auto;white-space:nowrap}
+.cart-bar{background:linear-gradient(90deg,#F5D742,#E8A820);color:#3A2A10;box-shadow:0 2px 10px rgba(0,0,0,.16);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cart-bar .cart-inner{max-width:1080px;margin:auto;padding:8px 18px;display:flex;align-items:center;gap:12px;overflow-x:auto;white-space:nowrap}
 .c-rows{display:flex;align-items:center;gap:10px;overflow-x:auto;flex:1}
 .c-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);border-radius:999px;padding:4px 4px 4px 4px}
 .c-thumb{width:34px;height:34px;border-radius:50%;overflow:hidden;flex:none;display:grid;place-items:center;background:#fff;font-size:16px}
@@ -684,9 +684,10 @@ function renderCustomer(slug,live=false){
    <div class="lang"><button class="lang-btn" id="langBtn">${I.globe}<span>${I18N.lang.toUpperCase()}</span></button>
    <div class="lang-pop" id="langPop">${Object.keys(LANG_META).map(l=>`<button data-lang="${l}" class="${l===I18N.lang?'on':''}">${LANG_META[l]}</button>`).join('')}</div></div>
  </div></header>
- ${heroHtml()}
- <div class="chips-wrap"><div class="chips">${secs.map(s=>`<button class="chip" data-target="sec-${s.cat.id}"><span>${s.cat.emoji}</span>${esc(catName(s.cat))}</button>`).join('')}</div></div>
- <main class="menu-main">
+${heroHtml()}
+  <div class="chips-wrap"><div class="chips">${secs.map(s=>`<button class="chip" data-target="sec-${s.cat.id}"><span>${s.cat.emoji}</span>${esc(catName(s.cat))}</button>`).join('')}</div></div>
+  <div id="cartBar" class="cart-bar"></div>
+  <main class="menu-main">
     ${secs.length?secs.map((s,ci)=>`<section class="cat-sec" id="sec-${s.cat.id}">
       <div class="cat-title"><span class="cat-emoji">${s.cat.emoji}</span><h2>${esc(catName(s.cat))}</h2><span class="cat-count">${s.items.length}</span></div>
       ${s.items.length?`<div class="pgrid">${s.items.map((p,i)=>cardHtml(p,ci,i)).join('')}</div>`:''}
