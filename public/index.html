@@ -63,10 +63,9 @@ img{display:block;max-width:100%}
 .switch.on{background:var(--blue-600)}.switch.on::after{transform:translateX(20px)}
 [dir="rtl"] .switch.on::after{transform:translateX(-20px)}
 .switch:disabled{opacity:.35;cursor:not-allowed}
-.c-head{position:sticky;top:var(--total-h,0);z-index:50;background:rgba(255,253,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.cart-bar{position:sticky;top:calc(var(--total-h,0) + 100px);z-index:45;background:linear-gradient(90deg,#F5D742,#E8A820);color:#3A2A10;box-shadow:0 2px 10px rgba(0,0,0,.16);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.total-bar{position:fixed;top:0;left:0;right:0;z-index:80;background:#1A7A3A;color:#fff;text-align:center;font-weight:700;font-size:.95rem;padding:8px;display:none}
-.total-bar span{display:inline-block}
+.c-head{position:sticky;top:0;z-index:50;background:rgba(255,253,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.c-head-total{margin-left:auto;background:#1A7A3A;color:#fff;font-weight:700;font-size:.85rem;padding:6px 14px;border-radius:999px;white-space:nowrap}
+.cart-bar{position:sticky;top:100px;z-index:45;background:linear-gradient(90deg,#F5D742,#E8A820);color:#3A2A10;box-shadow:0 2px 10px rgba(0,0,0,.16);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .cart-bar .cart-inner{max-width:1080px;margin:auto;padding:8px 18px;display:flex;align-items:center;gap:12px;overflow-x:auto;white-space:nowrap}
 .c-rows{display:flex;align-items:center;gap:10px;overflow-x:auto;flex:1;scrollbar-width:none}
 .c-rows::-webkit-scrollbar{display:none}
@@ -88,7 +87,7 @@ img{display:block;max-width:100%}
 .c-foot{margin-left:auto;display:flex;align-items:center;gap:10px;flex:none}
 .c-foot .btn{background:#3A2A10;color:#F5D742;border:none;font-weight:600}
 .c-total{font-weight:700;font-size:.95rem;background:#3A2A10;color:#F5D742;padding:6px 14px;border-radius:999px}
-.c-head-in{max-width:1080px;margin:auto;display:flex;align-items:center;gap:12px;padding:9px 18px}
+.c-head-in{max-width:1080px;margin:auto;position:relative;display:flex;align-items:center;gap:12px;padding:9px 18px}
 .c-logo{width:50px;height:50px;border-radius:50%;overflow:hidden;flex:none;display:grid;place-items:center;background:#fff;border:2px solid var(--brown-200,#e6d9cc);box-shadow:0 2px 8px rgba(60,40,20,.12)}
 .c-logo img{width:100%;height:100%;object-fit:cover}
 .c-logo.sm{width:38px;height:38px}
@@ -618,18 +617,18 @@ function cartHtml(){
 }
 function cartAdd(pid){cart[pid]=(cart[pid]||0)+1;persistCart();toast(t('menu.added'));}
 function cartSet(pid,q){if(q<=0)delete cart[pid];else cart[pid]=q;persistCart();}
-function persistCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart));updateCartBar();updateTotalBar();}
+function persistCart(){localStorage.setItem(CART_KEY,JSON.stringify(cart));updateCartBar();}
 function updateCartBar(){
   const bar=$('#cartBar');if(!bar)return;
   const html=cartHtml();
   bar.style.display=html?'':'none';
   if(html)bar.innerHTML=`<div class="cart-inner">${html}</div>`;
-}
-function updateTotalBar(){
-  const bar=$('#totalBar');if(!bar)return;
+  const hdr=$('#cHeadTotal');
   const n=cartCount();
-  if(n>0){bar.style.display='block';bar.innerHTML=`<span>${t('menu.total')} ${fmtPrice(cartTotal())} DT</span>`;document.documentElement.style.setProperty('--total-h','38px');}
-  else{bar.style.display='none';document.documentElement.style.setProperty('--total-h','0px');}
+  if(hdr){
+    if(n>0){hdr.style.display='block';hdr.innerHTML=`${t('menu.total')} ${fmtPrice(cartTotal())} DT`;}
+    else hdr.style.display='none';
+  }
 }
 let cartBound=false;
 function cartBind(){
@@ -694,11 +693,11 @@ function renderCustomer(slug,live=false){
  const b=brand();
  const socials=(b.facebook||b.instagram)?`<div class="social-t">${t('theme.follow')}</div><div class="social-row">${b.facebook?`<a class="soc" href="${esc(b.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${I.fb}</a>`:''}${b.instagram?`<a class="soc" href="${esc(b.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${I.ig}</a>`:''}</div>`:'';
 app.innerHTML=`
-  <div id="totalBar" class="total-bar"></div>
    <header class="c-head"><div class="c-head-in">${b.logo?`<span class="c-logo"><img src="${esc(b.logo)}" alt="${esc(cafe.name)}"></span>`:`<span class="c-logo">${LOGO(40)}</span>`}
     <div><div class="c-name">${esc(cafe.name)}</div><div class="c-tag">${esc(cafe.tagline)}</div></div>
     <div class="lang"><button class="lang-btn" id="langBtn">${I.globe}<span>${I18N.lang.toUpperCase()}</span></button>
     <div class="lang-pop" id="langPop">${Object.keys(LANG_META).map(l=>`<button data-lang="${l}" class="${l===I18N.lang?'on':''}">${LANG_META[l]}</button>`).join('')}</div></div>
+    <span id="cHeadTotal" class="c-head-total" style="display:none"></span>
   </div></header>
   ${heroHtml()}
   <div class="chips-wrap"><div class="chips">${secs.map(s=>`<button class="chip" data-target="sec-${s.cat.id}"><span>${s.cat.emoji}</span>${esc(catName(s.cat))}</button>`).join('')}</div></div>
