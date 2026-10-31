@@ -113,8 +113,12 @@ img{display:block;max-width:100%}
 .pgrid{display:grid;grid-template-columns:1fr;gap:16px}
 @media(min-width:640px){.pgrid{grid-template-columns:1fr 1fr}}
 @media(min-width:1000px){.pgrid{grid-template-columns:repeat(3,1fr)}}
-.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh1);transition:transform .3s,box-shadow .3s;animation:rise .55s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--i)*45ms)}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh1);transition:transform .5s,box-shadow .5s,opacity .5s,filter .5s;animation:rise .55s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--i)*45ms)}
 .pcard:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.pgrid:hover > .pcard{transform:scale(.97) !important;opacity:.6;filter:blur(2px) !important}
+.pgrid .pcard:hover{transform:scale(1.05) !important;opacity:1 !important;filter:none !important}
+.sup-grid:hover > .pcard{transform:scale(.97) !important;opacity:.6;filter:blur(2px) !important}
+.sup-grid .pcard:hover{transform:scale(1.05) !important;opacity:1 !important;filter:none !important}
 .pimg{aspect-ratio:4/3;position:relative;display:grid;place-items:center;overflow:hidden}
 .pemoji{font-size:58px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.2));transition:transform .4s;line-height:1}
 .pcard:hover .pemoji{transform:scale(1.09) rotate(-4deg)}
