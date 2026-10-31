@@ -473,7 +473,7 @@ function seed(){
  const P=(id,catId,name,desc,price,emoji,order)=>({id,catId,name,desc,price,emoji,image:'',order,active:true,supplement:false});
  const prods=[P('p-esp','c-cafe','Espresso','Court et intense',1.8,'☕',1),P('p-creme','c-cafe','Café Crème','Lait et mousse',2.8,'🥛',2),P('p-capp','c-cafe','Cappuccino','Mousse de lait',3.5,'☕',3),P('p-the','c-cafe','Thé à la Menthe','Menthe fraîche',3.0,'🍵',4),P('p-coca','c-bois','Coca-Cola','Bien frais',2.5,'🥤',1),P('p-eau','c-bois','Eau Minérale','50 cl',1.2,'💧',2),P('p-citr','c-bois','Citronnade','Citrons frais',3.5,'🍋',3),P('p-jorange','c-jus','Jus d\'Orange','Pressé minute',4.5,'🍊',1),P('p-javocat','c-jus','Jus d\'Avocat','Crémeux',6.0,'🥑',2),P('p-crois','c-pdj','Croissant','Pur beurre',2.0,'🥐',1),P('p-pac','c-pdj','Pain au Chocolat','Chocolat noir',2.3,'🍫',2),P('p-cheese','c-des','Cheesecake','Fruits rouges',7.0,'🍰',1),P('p-tiramisu','c-des','Tiramisu','Mascarpone',7.5,'🍮',2),P('p-pizza','c-sna','Pizza Maison','Mozzarella',8.5,'🍕',1),P('p-sand','c-sna','Sandwich Tunisien','Thon, harissa',5.0,'🥖',2),P('p-frites','c-sna','Frites Maison','Croustillantes',3.5,'🍟',3)];
  prods.push(...[['p-shot','c-cafe','Extra Shot','Supplément café',1.0,'⚡',5],['p-lait','c-cafe','Lait d\'avoine','Alternative végétale',0.8,'🥛',6],['p-fromage','c-sna','Extra Fromage','Fromage fondu',1.5,'🧀',4],['p-harissa','c-sna','Harissa','Piment fort',0.5,'🌶️',5]].map(([id,catId,name,desc,price,emoji,order])=>({...P(id,catId,name,desc,price,emoji,order),supplement:true})));
- return {cafe:{slug:'the-one',name:'Café Azur',tagline:'Torréfaction & pâtisserie — La Marsa',hours:'07:00 – 23:00',address:'12 rue de la Plage, La Marsa',branding:{...DEFAULT_BRAND}},
+ return {cafe:{slug:'the-one',name:'Café Azur',tagline:'Torréfaction & pâtisserie — La Marsa',hours:'07:00 – 23:00',address:'12 rue de la Plage, La Marsa',branding:{...DEFAULT_BRAND},plan:'PLAN_BASIC'},
   categories:cats,products:prods,availability:{[today]:{'p-tiramisu':false,'p-frites':false}},
   admins:[{email:'admin@cafe.tn',name:'admin',hash:Auth.pw('admin123')}],adminExists:true,meta:{lastChange:Date.now()}};}
 function stamp(){state.meta.lastChange=Date.now();}
@@ -498,14 +498,16 @@ async function apiFetch(path,opt={}){
  }catch(e){clearTimeout(to);throw e;}
 }
 function buildStateFromApi(d){
- const avail={};for(const a of (d.availability||[]))(avail[a.day]??={})[a.product_id]=!!a.available;
- state={cafe:{slug:d.cafe.slug,name:d.cafe.name,tagline:d.cafe.tagline||'',hours:d.cafe.hours||'',address:d.cafe.address||'',branding:{...DEFAULT_BRAND,...(d.cafe.branding||{})}},
-  categories:(d.categories||[]).map(c=>({id:c.id,emoji:c.emoji||'✨',order:c.sort_order,name:{fr:c.name_fr||'?',ar:c.name_ar||'',en:c.name_en||''}})),
-  products:(d.products||[]).map(p=>({id:p.id,catId:p.category_id,name:p.name,desc:p.description||'',price:+p.price,emoji:p.emoji||'☕',image:p.image||'',active:!!p.active,supplement:!!p.supplement,order:p.sort_order})),
-  availability:avail,adminExists:d.adminExists!==false,meta:{lastChange:d.lastChange||0}};
- lastVu=state.meta.lastChange;
+  const avail={};for(const a of (d.availability||[]))(avail[a.day]??={})[a.product_id]=!!a.available;
+  state={cafe:{slug:d.cafe.slug,name:d.cafe.name,tagline:d.cafe.tagline||'',hours:d.cafe.hours||'',address:d.cafe.address||'',branding:{...DEFAULT_BRAND,...(d.cafe.branding||{})},plan:d.cafe.plan||'PLAN_BASIC'},
+    categories:(d.categories||[]).map(c=>({id:c.id,emoji:c.emoji||'✨',order:c.sort_order,name:{fr:c.name_fr||'?',ar:c.name_ar||'',en:c.name_en||''}})),
+    products:(d.products||[]).map(p=>({id:p.id,catId:p.category_id,name:p.name,desc:p.description||'',price:+p.price,emoji:p.emoji||'☕',image:p.image||'',active:!!p.active,supplement:!!p.supplement,order:p.sort_order})),
+    availability:avail,adminExists:d.adminExists!==false,meta:{lastChange:d.lastChange||0}};
+  lastVu=state.meta.lastChange;
 }
-async function cloudLoad(){buildStateFromApi(await apiFetch('/menu'));}
+async function cloudLoad(){
+  const slug=state?.cafe?.slug||'the-one';
+  buildStateFromApi(await apiFetch('/menu?slug='+slug));}
 async function compressImage(file){
   try{
     if(!file||!file.type||!file.type.startsWith('image/'))return file;
