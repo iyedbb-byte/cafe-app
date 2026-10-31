@@ -677,16 +677,15 @@ function renderCustomer(slug,live=false){
  heroCount=count?`<span class="hero-count">${t('menu.xProducts',{n:count})}</span>`:'';
  const b=brand();
  const socials=(b.facebook||b.instagram)?`<div class="social-t">${t('theme.follow')}</div><div class="social-row">${b.facebook?`<a class="soc" href="${esc(b.facebook)}" target="_blank" rel="noopener" aria-label="Facebook">${I.fb}</a>`:''}${b.instagram?`<a class="soc" href="${esc(b.instagram)}" target="_blank" rel="noopener" aria-label="Instagram">${I.ig}</a>`:''}</div>`:'';
- app.innerHTML=`
- <div id="cartBar" class="cart-bar"></div>
-  <header class="c-head"><div class="c-head-in">${b.logo?`<span class="c-logo"><img src="${esc(b.logo)}" alt="${esc(cafe.name)}"></span>`:`<span class="c-logo">${LOGO(40)}</span>`}
-   <div><div class="c-name">${esc(cafe.name)}</div><div class="c-tag">${esc(cafe.tagline)}</div></div>
-   <div class="lang"><button class="lang-btn" id="langBtn">${I.globe}<span>${I18N.lang.toUpperCase()}</span></button>
-   <div class="lang-pop" id="langPop">${Object.keys(LANG_META).map(l=>`<button data-lang="${l}" class="${l===I18N.lang?'on':''}">${LANG_META[l]}</button>`).join('')}</div></div>
- </div></header>
-${heroHtml()}
-  <div class="chips-wrap"><div class="chips">${secs.map(s=>`<button class="chip" data-target="sec-${s.cat.id}"><span>${s.cat.emoji}</span>${esc(catName(s.cat))}</button>`).join('')}</div></div>
+app.innerHTML=`
+   <header class="c-head"><div class="c-head-in">${b.logo?`<span class="c-logo"><img src="${esc(b.logo)}" alt="${esc(cafe.name)}"></span>`:`<span class="c-logo">${LOGO(40)}</span>`}
+    <div><div class="c-name">${esc(cafe.name)}</div><div class="c-tag">${esc(cafe.tagline)}</div></div>
+    <div class="lang"><button class="lang-btn" id="langBtn">${I.globe}<span>${I18N.lang.toUpperCase()}</span></button>
+    <div class="lang-pop" id="langPop">${Object.keys(LANG_META).map(l=>`<button data-lang="${l}" class="${l===I18N.lang?'on':''}">${LANG_META[l]}</button>`).join('')}</div></div>
+  </div></header>
+  ${heroHtml()}
   <div id="cartBar" class="cart-bar"></div>
+  <div class="chips-wrap"><div class="chips">${secs.map(s=>`<button class="chip" data-target="sec-${s.cat.id}"><span>${s.cat.emoji}</span>${esc(catName(s.cat))}</button>`).join('')}</div></div>
   <main class="menu-main">
     ${secs.length?secs.map((s,ci)=>`<section class="cat-sec" id="sec-${s.cat.id}">
       <div class="cat-title"><span class="cat-emoji">${s.cat.emoji}</span><h2>${esc(catName(s.cat))}</h2><span class="cat-count">${s.items.length}</span></div>
